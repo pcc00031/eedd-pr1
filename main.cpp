@@ -9,6 +9,10 @@ using namespace std;
 
 int static numMostrarImagenes = 5;
 
+/**
+ * Carga imagenes desde un fichero y guarda en contenedor propio
+ * @return
+ */
 ContenedorImagenes cargarImagenes() {
     ifstream is;
     stringstream columnas;
@@ -67,6 +71,9 @@ ContenedorImagenes cargarImagenes() {
     return imagenes;
 }
 
+/**
+ * @author Pedro Corpas Cuesta @pcc00031
+ */
 int main() {
 
     cout << "******* PRACTICA 1 *******" << endl << endl;
