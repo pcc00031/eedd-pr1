@@ -9,6 +9,10 @@ using namespace std;
 
 int static numMostrarImagenes = 5;
 
+/**
+ * Carga imagenes desde un fichero y guarda en contenedor propio
+ * @return
+ */
 ContenedorImagenes cargarImagenes() {
     ifstream is;
     stringstream columnas;
