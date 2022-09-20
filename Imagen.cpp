@@ -1,14 +1,9 @@
-//
-// Created by pedro.corpas on 20/09/2022.
-//
 
 #include "Imagen.h"
 
 Imagen::Imagen(const string &id, const string &email, const string &nombre, int tam, const string &fecha,
                const string &etiquetas) : id(id), email(email), nombre(nombre), tam(tam), fecha(fecha),
                                           etiquetas(etiquetas) {}
-
-Imagen::Imagen() {}
 
 Imagen::~Imagen() {
 
@@ -73,4 +68,31 @@ bool Imagen::operator==(const Imagen &rhs) const {
 
 bool Imagen::operator!=(const Imagen &rhs) const {
     return !(rhs == *this);
+}
+
+bool Imagen::operator<(const Imagen &rhs) const {
+    return tam < rhs.tam;
+}
+
+bool Imagen::operator>(const Imagen &rhs) const {
+    return rhs < *this;
+}
+
+bool Imagen::operator<=(const Imagen &rhs) const {
+    return !(rhs < *this);
+}
+
+bool Imagen::operator>=(const Imagen &rhs) const {
+    return !(*this < rhs);
+}
+
+ostream &operator<<(ostream &os, const Imagen &imagen) {
+    os << "DATOS IMAGEN" << endl
+       << "- id: " << imagen.id << endl
+       << "- email: " << imagen.email << endl
+       << "- nombre: " << imagen.nombre << endl
+       << "- tam: " << imagen.tam << endl
+       << "- fecha: " << imagen.fecha << endl
+       << "- etiquetas: " << imagen.etiquetas << endl;
+    return os;
 }

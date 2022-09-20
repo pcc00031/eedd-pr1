@@ -1,6 +1,3 @@
-//
-// Created by pedro.corpas on 20/09/2022.
-//
 
 #ifndef PR1_CONTENEDORIMAGENES_H
 #define PR1_CONTENEDORIMAGENES_H
@@ -13,7 +10,7 @@ using namespace std;
 
 class ContenedorImagenes {
 private:
-    vector<Imagen> imagenes;
+    Imagen *imagenes;
     int tam;
 
 public:
@@ -25,12 +22,17 @@ public:
 
     virtual ~ContenedorImagenes();
 
-    void asigna(unsigned int pos);
+    void asigna(unsigned int pos, Imagen imagen);
 
     Imagen &recupera(unsigned int pos);
 
-    void ordenar();
-};
+    Imagen &recuperaPorID(string id);
 
+    void ordenar();
+
+    void ordenarRev();
+
+    ContenedorImagenes buscarImagenesPorYearEmail(string email, string fecha);
+};
 
 #endif //PR1_CONTENEDORIMAGENES_H

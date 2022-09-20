@@ -7,15 +7,15 @@ using namespace std;
 
 class Imagen {
 private:
-    string id;
-    string email;
-    string nombre;
-    int tam;
-    string fecha;
-    string etiquetas;
+    string id = "";
+    string email = "";
+    string nombre = "";
+    int tam = 0;
+    string fecha = "";
+    string etiquetas = "";
 
 public:
-    Imagen();
+    Imagen() = default;
 
     Imagen(const string &id, const string &email, const string &nombre, int tam, const string &fecha,
            const string &etiquetas);
@@ -49,6 +49,16 @@ public:
     bool operator==(const Imagen &rhs) const;
 
     bool operator!=(const Imagen &rhs) const;
+
+    bool operator<(const Imagen &rhs) const;
+
+    bool operator>(const Imagen &rhs) const;
+
+    bool operator<=(const Imagen &rhs) const;
+
+    bool operator>=(const Imagen &rhs) const;
+
+    friend ostream &operator<<(ostream &os, const Imagen &imagen);
 };
 
 
