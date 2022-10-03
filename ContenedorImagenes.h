@@ -14,7 +14,7 @@ private:
     int tam;
 
 public:
-    ContenedorImagenes(unsigned int tamMax);
+    explicit ContenedorImagenes(unsigned int tamMax);
 
     ContenedorImagenes();
 
@@ -22,17 +22,17 @@ public:
 
     virtual ~ContenedorImagenes();
 
-    void asigna(unsigned int pos, Imagen imagen);
+    void asigna(unsigned int pos, const Imagen& imagen);
 
     Imagen &recupera(unsigned int pos);
 
-    Imagen &recuperaPorID(string id);
+    Imagen &recuperaPorID(const string& id);
 
     void ordenar();
 
     void ordenarRev();
 
-    ContenedorImagenes buscarImagenesPorYearEmail(string email, int anno);
+    ContenedorImagenes buscarImagenesPorYearEmail(const string& email, int anno);
 };
 
 #endif //PR1_CONTENEDORIMAGENES_H

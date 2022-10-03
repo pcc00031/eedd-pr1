@@ -22,7 +22,7 @@ ContenedorImagenes::ContenedorImagenes() : tam(100) {
  * @param pos
  * @param imagen
  */
-void ContenedorImagenes::asigna(unsigned int pos, Imagen imagen) {
+void ContenedorImagenes::asigna(unsigned int pos, const Imagen& imagen) {
     if (pos < 0 || pos > this->tam)
         throw out_of_range("La posición indicada esta fuera del rango");
     this->imagenes[pos] = imagen;
@@ -68,7 +68,7 @@ int ContenedorImagenes::getTam() const {
  * @param fecha
  * @return nuevo contenedor
  */
-ContenedorImagenes ContenedorImagenes::buscarImagenesPorYearEmail(string email, int anno) {
+ContenedorImagenes ContenedorImagenes::buscarImagenesPorYearEmail(const string& email, int anno) {
     ContenedorImagenes contenedor = ContenedorImagenes(20);
     Imagen imagen;
     int contador = 0;
@@ -86,7 +86,7 @@ ContenedorImagenes ContenedorImagenes::buscarImagenesPorYearEmail(string email, 
  * @param id
  * @return
  */
-Imagen &ContenedorImagenes::recuperaPorID(string id) {
+Imagen &ContenedorImagenes::recuperaPorID(const string& id) {
     Imagen *imagen = new Imagen();
     for (int i = 0; i < this->tam; i++) {
         if (imagenes[i].getId() == id) {

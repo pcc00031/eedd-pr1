@@ -4,6 +4,7 @@
 #include <sstream>
 #include "Imagen.h"
 #include "ContenedorImagenes.h"
+#include <ctime>
 
 using namespace std;
 
@@ -88,7 +89,7 @@ int main() {
     for (int i = 0; i < numMostrarImagenes; i++) {
         cout << imagenes.recupera(i) << endl;
     }
-    cout << "Tiempo primer apartado: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " segs." << endl << endl;
+    cout << "Tiempo primer apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
 
@@ -100,8 +101,9 @@ int main() {
     imagenes.ordenar();
     for (int i = 0; i < numMostrarImagenes; i++) {
         cout << imagenes.recupera(i) << endl;
+        cout << imagenes.recupera(i) << endl;
     }
-    cout << "Tiempo segundo apartado: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " segs." << endl << endl;
+    cout << "Tiempo segundo apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
 
@@ -114,7 +116,7 @@ int main() {
     for (int i = 0; i < numMostrarImagenes; i++) {
         cout << imagenes.recupera(i) << endl;
     }
-    cout << "Tiempo tercer apartado: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " segs." << endl << endl;
+    cout << "Tiempo tercer apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
 
@@ -126,7 +128,7 @@ int main() {
     t_ini = clock();
     cout << imagenes.recuperaPorID("249062483") << endl;
     cout << imagenes.recuperaPorID("12") << endl;
-    cout << "Tiempo cuarto apartado: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " segs." << endl << endl;
+    cout << "Tiempo cuarto apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
 
@@ -142,7 +144,7 @@ int main() {
     for (int i = 0; i < numMostrarImagenes; i++) {
         cout << imagenesUsu.recupera(i) << endl;
     }
-    cout << "Tiempo quinto apartado: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " segs." << endl << endl;
+    cout << "Tiempo quinto apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
 
