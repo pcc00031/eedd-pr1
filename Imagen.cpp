@@ -69,7 +69,7 @@ void Imagen::setNombre(const string &nombre) {
 }
 
 /**
- * Obtiene tam de imagen
+ * Obtiene tamLog de imagen
  * @return
  */
 int Imagen::getTam() const {
@@ -77,7 +77,7 @@ int Imagen::getTam() const {
 }
 
 /**
- * Establece tam
+ * Establece tamLog
  * @param tam
  */
 void Imagen::setTam(int tam) {
@@ -145,7 +145,7 @@ ostream &operator<<(ostream &os, const Imagen &imagen) {
        << "- id: " << imagen.id << endl
        << "- email: " << imagen.email << endl
        << "- nombre: " << imagen.nombre << endl
-       << "- tam: " << imagen.tam << endl
+       << "- tamLog: " << imagen.tam << endl
        << "- fecha: " << imagen.fecha << endl
        << "- etiquetas: " << imagen.etiquetas << endl;
     return os;

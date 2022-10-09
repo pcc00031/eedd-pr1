@@ -3,7 +3,7 @@
 #include <string>
 #include <sstream>
 #include "Imagen.h"
-#include "ContenedorImagenes.h"
+#include "VDinamico.h"
 #include <ctime>
 
 using namespace std;
@@ -11,10 +11,10 @@ using namespace std;
 int static numMostrarImagenes = 5;
 
 /**
- * Carga imagenes desde un fichero y guarda en contenedor propio
+ * Carga imagenes desde un fichero y guarda en vector propio
  * @return
  */
-ContenedorImagenes cargarImagenes() {
+VDinamico<Imagen> cargarImagenes() {
     ifstream is;
     stringstream columnas;
     string fila;
@@ -29,7 +29,7 @@ ContenedorImagenes cargarImagenes() {
     string etiquetas;
     int contador = 0;
 
-    ContenedorImagenes imagenes = ContenedorImagenes(10000);
+    VDinamico<Imagen> imagenes = VDinamico<Imagen>(10000);
 
     is.open("../imagenes_v1.csv"); //carpeta de proyecto
     if (is.good()) {
@@ -40,7 +40,7 @@ ContenedorImagenes cargarImagenes() {
             if (!fila.empty()) {
                 columnas.str(fila);
 
-                //formato de fila: id;email;nombre;tam;fecha;etiquetas
+                //formato de fila: id;email;nombre;tamLog;fecha;etiquetas
 
                 getline(columnas, id, ';'); //leemos caracteres hasta encontrar y omitir ';'
                 getline(columnas, email, ';');
@@ -59,7 +59,7 @@ ContenedorImagenes cargarImagenes() {
                 getline(columnas, etiquetas, ';');
 
                 Imagen imagen = Imagen(id, email, nombre, tam, Fecha(dia, mes, anno), etiquetas);
-                imagenes.asigna(contador++, imagen);
+                imagenes.insertar(imagen, contador++);
 
                 fila = "";
                 columnas.clear();
@@ -79,71 +79,85 @@ int main() {
 
     cout << "******* PRACTICA 1 *******" << endl << endl;
 
-//    Instanciar un contenedor de imágenes con 10000 posiciones y almacenar en él las imágenes
+//    Instanciar un vector de imágenes con 10000 posiciones y almacenar en él las imágenes
 //    contenidas en el fichero adjunto. Una vez leído el fichero, mostrar el nombre, la fecha y etiquetas
-//    de las 50 primeras imágenes del contenedor
+//    de las 50 primeras imágenes del vector
 
     cout << "******* Mostrando primeras imagenes cargadas *******" << endl << endl;
     clock_t t_ini = clock();
-    ContenedorImagenes imagenes = cargarImagenes();
+    VDinamico<Imagen> imagenes = cargarImagenes();
     for (int i = 0; i < numMostrarImagenes; i++) {
-        cout << imagenes.recupera(i) << endl;
+        cout << imagenes[i] << endl;
     }
     cout << "Tiempo primer apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
 
-//    Ordenar el contenedor al revés, es decir, de mayor a menor y mostrar la información de todas sus
+//    Ordenar el vector al revés, es decir, de mayor a menor y mostrar la información de todas sus
 //    imágenes
 
     cout << "******* Mostrando datos ordenados *******" << endl << endl;
     t_ini = clock();
     imagenes.ordenar();
     for (int i = 0; i < numMostrarImagenes; i++) {
-        cout << imagenes.recupera(i) << endl;
-        cout << imagenes.recupera(i) << endl;
+        cout << imagenes[i] << endl;
+        cout << imagenes[i] << endl;
     }
     cout << "Tiempo segundo apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
 
-//    Ordenar el contenedor de menor a mayor y mostrar los identificadores de las primeras 20
+//    Ordenar el vector de menor a mayor y mostrar los identificadores de las primeras 20
 //    imágenes
 
     cout << "******* Mostrando datos ordenados desc. *******" << endl << endl;
     t_ini = clock();
     imagenes.ordenarRev();
     for (int i = 0; i < numMostrarImagenes; i++) {
-        cout << imagenes.recupera(i) << endl;
+        cout << imagenes[i] << endl;
     }
     cout << "Tiempo tercer apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
 
-//    Una vez ordenado el vector, buscar imágenes con algún identificador que se conozca que existe y
-//    otro que no, mostrando su posición en el contenedor. Tener en cuenta que al buscar una imagen
-//    esta puede no existir.
+//    Una vez ordenado el vector, buscar imágenes con los identificadores 346335905, 999930245,
+//    165837, 486415569 y 61385551, mostrando su posición en el contenedor. Teniendo en cuenta que
+//    pueden no existir.
 
     cout << "******* Buscando imagenes existe / no existe *******" << endl << endl;
     t_ini = clock();
-    cout << imagenes.recuperaPorID("249062483") << endl;
-    cout << imagenes.recuperaPorID("12") << endl;
+    Imagen imagen = Imagen();
+    imagen.setId("346335905");
+    try {
+        cout << imagenes[imagenes.busquedaBin(imagen)] << endl;
+        imagen.setId("999930245");
+        cout << imagenes[imagenes.busquedaBin(imagen)] << endl;
+        imagen.setId("165837");
+        cout << imagenes[imagenes.busquedaBin(imagen)] << endl;
+        imagen.setId("486415569");
+        cout << imagenes[imagenes.busquedaBin(imagen)] << endl;
+        imagen.setId("61385551");
+        cout << imagenes[imagenes.busquedaBin(imagen)] << endl;
+
+    }catch (invalid_argument e){
+        cerr << e.what() << endl;
+    }
     cout << "Tiempo cuarto apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
 
-//    Los responsables de la aplicación consideran interesante que los usuarios puedan localizar las
-//    imágenes comprendidas entre un periodo de tiempo. Recuperar las 20 primeras imágenes (podría
-//    haber menos) del usuario magdalen_upton99@gmail.com durante el 2020 y almacenarlas en un
-//    nuevo contenedor de imágenes, mostrando finalmente su contenido por pantalla.
+//    El usuario magdalen_upton99@gmail.com desea descargarse y eliminar sus imágenes del
+//    sistema. Pasar y borrar todas sus fotos del vector dinámico a un nuevo vector dinámico específico
+//    para enviárselas. Mostrar el tamaño lógico de ambos vectores y toda la información de las
+//    primeras 10 imágenes que se le enviarán. Si se usan vectores auxiliares, deberán declararse como
+//    VDinamico.
 
     cout << "******* Mostrando imagenes de magdalen_upton99@gmail.com en 2020 *******" << endl << endl;
-    imagenes.ordenar();
     t_ini = clock();
-    ContenedorImagenes imagenesUsu = imagenes.buscarImagenesPorYearEmail("magdalen_upton99@gmail.com", 2020);
-    for (int i = 0; i < numMostrarImagenes; i++) {
-        cout << imagenesUsu.recupera(i) << endl;
-    }
+//    VDinamico<Imagen> imagenesUsu = imagenes.buscarImagenesPorYearEmail("magdalen_upton99@gmail.com", 2020);
+//    for (int i = 0; i < numMostrarImagenes; i++) {
+//        cout << imagenesUsu[i] << endl;
+//    }
     cout << "Tiempo quinto apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
