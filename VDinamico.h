@@ -46,14 +46,17 @@ public:
 
 };
 
+/* IMPLEMENTACION DE LA CLASE */
+/* CONSTRUCTORES */
+
 /**
- * @brief constructor por defecto.  Si no se le asignan datos a los parámetros se le asigna por defecto
- * 0 al tamanio logico y 1 al tamanio fisico
+ * @brief Constructor por defecto
  */
 template<class T>
-VDinamico<T>::VDinamico() : tamLog(0) {
-    v = new T[tamaf = 1];
-}
+VDinamico<T>::VDinamico() : tamaf(1), tamLog(0) {
+    v = new T[tamaf];
+
+};
 
 /**
  * @brief Constructor parametrizado
@@ -72,8 +75,9 @@ VDinamico<T>::VDinamico(unsigned int tamLog) : tamLog(0) {
 };
 
 /**
- * @brief Constructor de copia parcial
- * @param origen Vector que queremos copiar
+ * @brief Constructor copia
+ * @post Crea una copia de
+ * @param orig
  */
 template<class T>
 VDinamico<T>::VDinamico(const VDinamico<T> &origen) : tamLog(origen.tamLog) {
@@ -113,7 +117,7 @@ VDinamico<T> &VDinamico<T>::operator=(const VDinamico<T> &orig) {
         tamaf = orig.tamaf;
         v = new T[tamaf];
         for (int i = 0; i < tamLog; i++) {
-            v = orig.v[i];
+            v[i] = orig.v[i];
         }
     }
     return *this;
@@ -127,14 +131,15 @@ VDinamico<T> &VDinamico<T>::operator=(const VDinamico<T> &orig) {
 template<class T>
 T &VDinamico<T>::operator[](unsigned pos) {
     if (pos < 0 || pos >= tamaf)
-        throw invalid_argument("La posicion es incorrecta");
+        throw out_of_range("La posicion es incorrecta");
     return v[pos];
 }
 
 /**
  * @brief Insertar
  * @post Inserta un dato en la posición indicada, sino se indica el dato,
- * la inserción será realizada al final del v
+ * la inserción será realizada al final del vector
+ * @tparam T
  * @param dato
  * @param pos
  */
@@ -142,12 +147,12 @@ template<class T>
 void VDinamico<T>::insertar(const T &dato, unsigned int pos) {
     if (pos == UINT_MAX) {
         if (tamLog == tamaf) {
-            T *auxiliar;
-            auxiliar = new T[tamaf = tamaf * 2];
+            T *datoAux;
+            datoAux = new T[tamaf = tamaf * 2];
             for (int i = 0; i < tamLog; i++)
-                auxiliar[i] = v[i];
+                datoAux[i] = v[i];
             delete[]v;
-            v = auxiliar;
+            v = datoAux;
         }
         pos = tamLog;
         v[pos] = dato;
@@ -155,12 +160,12 @@ void VDinamico<T>::insertar(const T &dato, unsigned int pos) {
     } else {
         if (pos == tamLog) {
             if (tamLog == tamaf) {
-                T *auxiliar;
-                auxiliar = new T[tamaf = tamaf * 2];
+                T *datoAux;
+                datoAux = new T[tamaf = tamaf * 2];
                 for (unsigned int i = 0; i < tamLog; i++)
-                    auxiliar[i] = v[i];
+                    datoAux[i] = v[i];
                 delete[]v;
-                v = auxiliar;
+                v = datoAux;
             }
             v[tamLog] = dato;
             tamLog++;

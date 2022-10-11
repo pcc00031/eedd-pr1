@@ -139,7 +139,7 @@ int main() {
         imagen.setId("61385551");
         cout << imagenes[imagenes.busquedaBin(imagen)] << endl;
 
-    }catch (invalid_argument e){
+    } catch (out_of_range e) {
         cerr << e.what() << endl;
     }
     cout << "Tiempo cuarto apartado: " << (clock() - t_ini) << " ms." << endl << endl;
@@ -152,12 +152,25 @@ int main() {
 //    primeras 10 imágenes que se le enviarán. Si se usan vectores auxiliares, deberán declararse como
 //    VDinamico.
 
-    cout << "******* Mostrando imagenes de magdalen_upton99@gmail.com en 2020 *******" << endl << endl;
+    cout << "******* Mostrando imagenes de magdalen_upton99@gmail.com *******" << endl << endl;
     t_ini = clock();
-//    VDinamico<Imagen> imagenesUsu = imagenes.buscarImagenesPorYearEmail("magdalen_upton99@gmail.com", 2020);
-//    for (int i = 0; i < numMostrarImagenes; i++) {
-//        cout << imagenesUsu[i] << endl;
-//    }
+    VDinamico<Imagen> imagenesMagdalen = VDinamico<Imagen>();
+    VDinamico<int> posiciones = VDinamico<int>();
+    for (int i = 0; i < imagenes.getTamLog(); ++i) {
+        if (imagenes[i].getEmail() == "magdalen_upton99@gmail.com") {
+            imagenesMagdalen.insertar(imagenes[i]);
+            imagenes.borrar(i);
+        }
+    }
+    for (int i = 0; i < posiciones.getTamLog(); ++i) {
+        imagenes.borrar(posiciones[i]);
+    }
+    for (int i = 0; i < numMostrarImagenes; i++) {
+        cout << imagenesMagdalen[i] << endl;
+    }
+
+    cout << "Total imagenes Magdalen: " << imagenesMagdalen.getTamLog() << endl;
+    cout << "Tam de vector una vez borradas: " << imagenes.getTamLog() << endl;
     cout << "Tiempo quinto apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
