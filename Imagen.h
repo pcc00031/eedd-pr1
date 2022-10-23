@@ -3,25 +3,26 @@
 
 #include <iostream>
 #include "fecha.h"
+#include "Etiqueta.h"
 
 using namespace std;
 
 class Imagen {
 private:
-    string id = "";
-    string email = "";
-    string nombre = "";
+    string id;
+    string email;
+    string nombre;
     int tam = 0;
     Fecha fecha = Fecha();
-    string etiquetas = "";
+    Etiqueta etiquetada;
 
 public:
     Imagen() = default;
 
-    Imagen(const string &id, const string &email, const string &nombre, int tam, const Fecha &fecha,
-           const string &etiquetas);
+    Imagen(const string &id, const string &email, const string &nombre,
+           int tam, const Fecha &fecha, const Etiqueta &etiquetada);
 
-    virtual ~Imagen();
+    virtual ~Imagen() = default;
 
     const string &getId() const;
 
@@ -43,9 +44,9 @@ public:
 
     void setFecha(const Fecha &fecha);
 
-    const string &getEtiquetas() const;
+    const Etiqueta &getEtiquetada() const;
 
-    void setEtiquetas(const string &etiquetas);
+    void setEtiquetada(const Etiqueta &etiquetada);
 
     bool operator==(const Imagen &rhs) const;
 

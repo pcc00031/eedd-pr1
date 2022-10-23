@@ -8,17 +8,11 @@
  * @param nombre
  * @param tam
  * @param fecha
- * @param etiquetas
+ * @param etiquetadas
  */
-Imagen::Imagen(const string &id, const string &email, const string &nombre, int tam, const Fecha &fecha,
-               const string &etiquetas) : id(id), email(email), nombre(nombre), tam(tam), fecha(fecha),
-                                          etiquetas(etiquetas) {}
-/**
- * Constructor por defecto
- */
-Imagen::~Imagen() {
-
-}
+Imagen::Imagen(const string &id, const string &email, const string &nombre, int tam,
+               const Fecha &fecha, const Etiqueta &etiquetada) :
+        id(id), email(email), nombre(nombre), tam(tam), fecha(fecha), etiquetada(etiquetada) {}
 
 /**
  * Obtiene id de imagen
@@ -104,16 +98,16 @@ void Imagen::setFecha(const Fecha &fecha) {
  * Obtiene etiquetas de imagen
  * @return
  */
-const string &Imagen::getEtiquetas() const {
-    return etiquetas;
+const Etiqueta &Imagen::getEtiquetada() const {
+    return etiquetada;
 }
 
 /**
  * Establece etiquetas
  * @param etiquetas
  */
-void Imagen::setEtiquetas(const string &etiquetas) {
-    Imagen::etiquetas = etiquetas;
+void Imagen::setEtiquetada(const Etiqueta &etiquetada) {
+    Imagen::etiquetada = etiquetada;
 }
 
 /** OPERADORES EN BASE A TAM **/
@@ -127,11 +121,11 @@ bool Imagen::operator>(const Imagen &rhs) const {
 }
 
 bool Imagen::operator<=(const Imagen &rhs) const {
-    return !(rhs.tam < tam);
+    return rhs.tam >= tam;
 }
 
 bool Imagen::operator>=(const Imagen &rhs) const {
-    return !(tam < rhs.tam);
+    return tam >= rhs.tam;
 }
 
 /**
@@ -147,7 +141,7 @@ ostream &operator<<(ostream &os, const Imagen &imagen) {
        << "- nombre: " << imagen.nombre << endl
        << "- tamLog: " << imagen.tam << endl
        << "- fecha: " << imagen.fecha << endl
-       << "- etiquetas: " << imagen.etiquetas << endl;
+       << imagen.etiquetada << endl;
     return os;
 }
 
@@ -157,7 +151,7 @@ bool Imagen::operator==(const Imagen &rhs) const {
            nombre == rhs.nombre &&
            tam == rhs.tam &&
            fecha.mismoDia(fecha) &&
-           etiquetas == rhs.etiquetas;
+           etiquetada == rhs.etiquetada;
 }
 
 bool Imagen::operator!=(const Imagen &rhs) const {
