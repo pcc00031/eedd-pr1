@@ -29,11 +29,11 @@ public:
 
     bool operator<(const ListaDEnlazada<T> &right) const;
 
-    ListaDEnlazada operator+(const ListaDEnlazada& listaDEnlazada) const;
+    ListaDEnlazada operator+(const ListaDEnlazada &listaDEnlazada) const;
 
     /* METODOS */
 
-    Iterador<T> iterador(); // iterador al inicio
+    Iterador<T> iterador() const; // iterador al inicio
 
     // metodos de insercion
     void insertarInicio(T &dato);
@@ -55,6 +55,8 @@ public:
 
     T &inicio(); // dato en cabecera
     T &final(); // dato en cola
+
+    ListaDEnlazada concatena(const ListaDEnlazada &listaDEnlazada) const;
 
     /* GETTER */
 
@@ -147,6 +149,23 @@ bool ListaDEnlazada<T>::operator<(const ListaDEnlazada<T> &right) const {
     return right > *this;
 }
 
+template<class T>
+ListaDEnlazada<T> ListaDEnlazada<T>::operator+(const ListaDEnlazada<T> &listaDEnlazada) const {
+    ListaDEnlazada<T> lista = ListaDEnlazada<T>();
+    Iterador<T> i = (*this).iterador();
+
+    while (!i.fin()) {
+        lista.insertarFinal(i.dato());
+        i.siguiente();
+    }
+
+    Iterador<T> it = listaDEnlazada.iterador();
+    while (!it.fin()) {
+        lista.insertarFinal(it.dato());
+        it.siguiente();
+    }
+    return lista;
+}
 /* METODOS */
 
 /**
@@ -154,7 +173,7 @@ bool ListaDEnlazada<T>::operator<(const ListaDEnlazada<T> &right) const {
  * @return
  */
 template<class T>
-Iterador<T> ListaDEnlazada<T>::iterador() {
+Iterador<T> ListaDEnlazada<T>::iterador() const {
     return Iterador<T>(cabecera);
 }
 
@@ -333,6 +352,16 @@ T &ListaDEnlazada<T>::inicio() {
 template<class T>
 T &ListaDEnlazada<T>::final() {
     return cola->dato;
+}
+
+/**
+ * @brief Concatena dos listas
+ * @param listaDEnlazada
+ * @return
+ */
+template<class T>
+ListaDEnlazada<T> ListaDEnlazada<T>::concatena(const ListaDEnlazada<T> &listaDEnlazada) const {
+    return (*this) + listaDEnlazada;
 }
 
 /* GETTERS Y SETTERS */

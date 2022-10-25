@@ -47,6 +47,8 @@ int main() {
 
     cout << "******* Uniendo ambas listas anteriores *******" << endl << endl;
 
+    ListaDEnlazada<Imagen> listaUnion = imagenesEtiquetaPlaya.concatena(imagenesEtiquetaComida);
+    cout << "Total tam: " << listaUnion.getTam() << endl;
 
     cout << "Tiempo tercer apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
