@@ -1,35 +1,30 @@
 
-#ifndef ITERADOR_H
-#define ITERADOR_H
+/* 
+ * File:   Nodo.h
+ * Author: Pedro
+ *
+ * Created on 24 de octubre de 2021, 16:35
+ */
 
-template<class T>
+#ifndef NODO_H
+#define NODO_H
+
+template<typename U>
 class Nodo {
 public:
-    // Atributos
-    T dato;
-    Nodo *sig;
+    Nodo<U> *izq, *der;
+    U dato;
+    char bal; //balance de un nodo dentro del arbol (nunca puede ser más de 1)
 
-    // Constructor
-
-    Nodo(T &aDato, Nodo *aSig = 0) :
-            dato(aDato), sig(aSig) {
+    Nodo(U &ele) : izq(0), der(0), bal(0), dato(ele) {
     }
 
-    // Constructor copia
-
-    Nodo(const Nodo<T> &orig) :
-            dato(orig.dato), sig(orig.sig) {
-    }
-
-    // Operador de asignacion
-
-    Nodo<T> &operator=(const Nodo<T> &right) {
-        if (this == &right)
-            return *this;
-        this->sig = right.sig;
-        this->dato = right.dato;
-        return *this;
+    Nodo(Nodo *aizq = nullptr, Nodo *ader = nullptr, U adato = 0, char abal = 0) :
+            izq(aizq),
+            der(ader),
+            dato(adato),
+            bal(abal) {
     }
 };
 
-#endif /* ITERADOR_H */
+#endif /* NODO_H */

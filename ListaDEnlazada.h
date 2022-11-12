@@ -2,7 +2,7 @@
 #define LISTAENLAZADA_H
 
 #include <cstddef>
-#include "Nodo.h"
+#include "NodoL.h"
 #include "Iterador.h"
 
 /* DECLARACION DE LA CLASE */
@@ -10,7 +10,7 @@
 template<class T>
 class ListaDEnlazada {
 private:
-    Nodo<T> *cabecera, *cola;
+    NodoL<T> *cabecera, *cola;
     int tam;
 
 public:
@@ -81,14 +81,14 @@ ListaDEnlazada<T>::ListaDEnlazada() : cabecera(0), cola(0), tam(0) {
  */
 template<class T>
 ListaDEnlazada<T>::ListaDEnlazada(const ListaDEnlazada &orig) {
-    Nodo<T> *i = orig.cabecera;
+    NodoL<T> *i = orig.cabecera;
 
     cabecera = cola = 0;
     tam = orig.tam;
 
     while (i) {
-        Nodo<T> *nuevo;
-        nuevo = new Nodo<T>(i->dato, nullptr);
+        NodoL<T> *nuevo;
+        nuevo = new NodoL<T>(i->dato, nullptr);
 
         if (cabecera == nullptr)
             cabecera = nuevo;
@@ -115,7 +115,7 @@ ListaDEnlazada<T> &ListaDEnlazada<T>::operator=(const ListaDEnlazada<T> &l) {
     if (this != &l) {
 
         if (cabecera) {
-            Nodo<T> *nodo = cabecera;
+            NodoL<T> *nodo = cabecera;
             while (nodo) {
                 cabecera = cabecera->sig;
                 delete nodo;
@@ -123,15 +123,15 @@ ListaDEnlazada<T> &ListaDEnlazada<T>::operator=(const ListaDEnlazada<T> &l) {
             }
             cola = nullptr;
         }
-        Nodo<T> *i = l.cabecera;
+        NodoL<T> *i = l.cabecera;
 
         this->cabecera = nullptr;
         this->cola = nullptr;
         tam = l.tam;
 
         while (i) {
-            Nodo<T> *nuevo;
-            nuevo = new Nodo<T>(i->dato, nullptr);
+            NodoL<T> *nuevo;
+            nuevo = new NodoL<T>(i->dato, nullptr);
 
             if (cabecera == nullptr)
                 cabecera = nuevo;
@@ -202,8 +202,8 @@ Iterador<T> ListaDEnlazada<T>::iterador() const {
  */
 template<class T>
 void ListaDEnlazada<T>::insertarInicio(T &dato) {
-    Nodo<T> *nuevo;
-    nuevo = new Nodo<T>(dato, cabecera);
+    NodoL<T> *nuevo;
+    nuevo = new NodoL<T>(dato, cabecera);
     if (cola == 0)
         cola = nuevo;
     tam++;
@@ -216,8 +216,8 @@ void ListaDEnlazada<T>::insertarInicio(T &dato) {
 template<class T>
 void ListaDEnlazada<T>::insertarFinal(T &dato) {
 
-    Nodo<T> *nuevo;
-    nuevo = new Nodo<T>(dato, 0);
+    NodoL<T> *nuevo;
+    nuevo = new NodoL<T>(dato, 0);
 
     if (cabecera == 0)
         cabecera = nuevo;
@@ -243,9 +243,9 @@ void ListaDEnlazada<T>::inserta(Iterador<T> &i, T &dato) {
  */
 template<class T>
 void ListaDEnlazada<T>::insertaOrdenado(T &dato) {
-    Nodo<T> *nuevo;
-    nuevo = new Nodo<T>(dato, 0);
-    Nodo<T> *act;
+    NodoL<T> *nuevo;
+    nuevo = new NodoL<T>(dato, 0);
+    NodoL<T> *act;
 
     if (cabecera == NULL || (cabecera)->dato >= nuevo->dato) {
         nuevo->sig = cabecera;
@@ -269,7 +269,7 @@ template<class T>
 void ListaDEnlazada<T>::borraInicio() {
     if (cabecera != 0) {
         --tam;
-        Nodo<T> *borrado = cabecera;
+        NodoL<T> *borrado = cabecera;
         cabecera = cabecera->sig;
         delete borrado;
 
@@ -286,7 +286,7 @@ void ListaDEnlazada<T>::borraInicio() {
 template<class T>
 void ListaDEnlazada<T>::borraFinal() {
 
-    Nodo<T> *anterior = 0;
+    NodoL<T> *anterior = 0;
     if (cabecera != cola) {
         --tam;
         anterior = cabecera;
@@ -309,7 +309,7 @@ void ListaDEnlazada<T>::borraFinal() {
  */
 template<class T>
 void ListaDEnlazada<T>::borra(Iterador<T> &i) {
-    Nodo<T> *anterior = 0;
+    NodoL<T> *anterior = 0;
     if (!i.fin()) {
         --tam;
         if (i.nodo == cabecera) {
@@ -342,7 +342,7 @@ void ListaDEnlazada<T>::borra(Iterador<T> &i) {
 template<class T>
 bool ListaDEnlazada<T>::buscar(const T &dato, Iterador<T> &i) {
 
-    Nodo<T> *aux;
+    NodoL<T> *aux;
     aux = cabecera;
     while (aux) {
         if (aux->dato == dato) {
@@ -407,7 +407,7 @@ int ListaDEnlazada<T>::getTam() const {
 
 template<class T>
 ListaDEnlazada<T>::~ListaDEnlazada() {
-    Nodo<T> *siguiente;
+    NodoL<T> *siguiente;
     while (cabecera != NULL) {
         siguiente = cabecera->sig;
         free(cabecera);

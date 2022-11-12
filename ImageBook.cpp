@@ -4,12 +4,14 @@
 #include <sstream>
 #include "ImageBook.h"
 
-ImageBook::ImageBook(const string &ficheroImagenes, const string &ficheroEtiquetas) {
+ImageBook::ImageBook(const string &ficheroImagenes, const string &ficheroEtiquetas, const string &ficheroUsuarios) {
     cargarEtiquetas(ficheroEtiquetas);
+    cargarUsuarios(ficheroUsuarios);
     cargarImagenes(ficheroImagenes);
 }
 
 void ImageBook::cargarImagenes(const string &fichero) {
+    images = VDinamico<Imagen>(10000);
     ifstream is;
     stringstream columnas;
     string fila;
@@ -53,8 +55,9 @@ void ImageBook::cargarImagenes(const string &fichero) {
 
                 // si existe la etiqueta correspondiente a esta imagen, insertamos
                 if (i.dato().getNombre() == etiqueta) {
-                    Imagen imagen = Imagen(id, email, nombre, tam, Fecha(dia, mes, anno), etiquetaAux);
+                    Imagen imagen = Imagen(id, nombre, tam, Fecha(dia, mes, anno), etiquetaAux);
                     images.insertar(imagen, contador++);
+                    buscarUsuario(email)->insertarImagen(imagen);
                 }
 
                 fila = "";
@@ -97,6 +100,37 @@ void ImageBook::cargarEtiquetas(const string &fichero) {
     }
 }
 
+void ImageBook::cargarUsuarios(const string &fichero) {
+    ifstream is;
+    stringstream columnas;
+    string fila;
+
+    string email;
+    int contador = 0;
+
+    is.open("../" + fichero);
+    if (is.good()) {
+
+        while (getline(is, fila)) {
+            if (!fila.empty()) {
+                columnas.str(fila);
+
+                getline(columnas, email);
+
+                Usuario usuario = Usuario(email);
+                users.inserta(usuario);
+
+                fila = "";
+                columnas.clear();
+            }
+        }
+        is.close();
+    } else {
+        cout << "Error de apertura en archivo" << endl;
+    }
+}
+
+
 void ImageBook::mostrarImagenes(int total) {
     cout << "Total imagenes: " << images.getTamLog() << endl;
     for (int i = 0; i < total; ++i) {
@@ -130,6 +164,38 @@ ListaDEnlazada<Imagen> ImageBook::buscarImagEtiq(const string &etiqueta) {
     }
 
     return lista;
+}
+
+Usuario *ImageBook::buscarUsuario(string email) {
+    Usuario usuario = Usuario(email);
+    Usuario *result = new Usuario();
+    if (!users.buscaR(usuario, result))
+        throw std::invalid_argument("Usuario con email " + email + " no encontrado");
+    return result;
+}
+
+VDinamico<Usuario *> ImageBook::buscarUsuarioEtiq(string etiqueta) {
+    VDinamico<Usuario *> usuEtiq = VDinamico<Usuario *>();
+    VDinamico<Usuario *> recorreUsers = users.recorreInorden();
+    for (int i = 0; i < users.recorreInorden().getTamLog(); ++i) {
+        if (recorreUsers[i]->buscarEtiq(etiqueta).getTamLog() > 0)
+            usuEtiq.insertar(recorreUsers[i]);
+    }
+    return usuEtiq;
+}
+
+VDinamico<Usuario *> ImageBook::getMasActivos() {
+    VDinamico<Usuario *> masActivos = VDinamico<Usuario *>();
+    VDinamico<Usuario *> recorreUsers = users.recorreInorden();
+
+    Usuario *masActivo = recorreUsers[0];
+
+    for (int i = 0; i < users.recorreInorden().getTamLog(); ++i) {
+        if (recorreUsers[i]->getNumImages() >masActivo->getNumImages())
+           masActivo = recorreUsers[i];
+    }
+    masActivos.insertar(masActivo);
+    return masActivos;
 }
 
 Etiqueta &ImageBook::etiquetaMasRepetida() {

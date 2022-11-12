@@ -2,18 +2,18 @@
 #ifndef PR1_ITERADOR_H
 #define PR1_ITERADOR_H
 
-#include "Nodo.h"
+#include "NodoL.h"
 
 template<class T>
 class Iterador {
 private:
-    Nodo <T> *nod;
+    NodoL <T> *nod;
 
 public:
 
-    Iterador(Nodo <T> *aNodo);
+    Iterador(NodoL <T> *aNodo);
 
-    Nodo <T> *nodo;
+    NodoL <T> *nodo;
 
     bool fin();
 
@@ -23,7 +23,7 @@ public:
 };
 
 template<class T>
-Iterador<T>::Iterador(Nodo <T> *aNodo) : nodo(aNodo) {
+Iterador<T>::Iterador(NodoL <T> *aNodo) : nodo(aNodo) {
 }
 
 template<class T>

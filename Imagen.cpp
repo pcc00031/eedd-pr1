@@ -10,9 +10,8 @@
  * @param fecha
  * @param etiquetadas
  */
-Imagen::Imagen(const string &id, const string &email, const string &nombre, int tam,
-               const Fecha &fecha, const Etiqueta &etiquetada) :
-        id(id), email(email), nombre(nombre), tam(tam), fecha(fecha), etiquetada(etiquetada) {}
+Imagen::Imagen(const string &id, const string &nombre, int tam, const Fecha &fecha, const Etiqueta &etiquetada) :
+        id(id), nombre(nombre), tam(tam), fecha(fecha), etiquetada(etiquetada) {}
 
 /**
  * Obtiene id de imagen
@@ -28,22 +27,6 @@ const string &Imagen::getId() const {
  */
 void Imagen::setId(const string &id) {
     Imagen::id = id;
-}
-
-/**
- * Obtiene email de imagen
- * @return
- */
-const string &Imagen::getEmail() const {
-    return email;
-}
-
-/**
- * Establece email
- * @param email
- */
-void Imagen::setEmail(const string &email) {
-    Imagen::email = email;
 }
 
 /**
@@ -137,7 +120,6 @@ bool Imagen::operator>=(const Imagen &rhs) const {
 ostream &operator<<(ostream &os, const Imagen &imagen) {
     os << "DATOS IMAGEN" << endl
        << "- id: " << imagen.id << endl
-       << "- email: " << imagen.email << endl
        << "- nombre: " << imagen.nombre << endl
        << "- tamLog: " << imagen.tam << endl
        << "- fecha: " << imagen.fecha << endl
@@ -147,7 +129,6 @@ ostream &operator<<(ostream &os, const Imagen &imagen) {
 
 bool Imagen::operator==(const Imagen &rhs) const {
     return id == rhs.id &&
-           email == rhs.email &&
            nombre == rhs.nombre &&
            tam == rhs.tam &&
            fecha.mismoDia(fecha) &&

@@ -42,7 +42,7 @@ public:
 
     void ordenarRev();
 
-    unsigned int getTamLog();
+    unsigned int getTamLog() const;
 
 };
 
@@ -233,7 +233,7 @@ T VDinamico<T>::borrar(unsigned pos) {
  * @return devuelve el tamanio logico
  */
 template<class T>
-unsigned int VDinamico<T>::getTamLog() {
+unsigned int VDinamico<T>::getTamLog() const {
     return tamLog;
 }
 

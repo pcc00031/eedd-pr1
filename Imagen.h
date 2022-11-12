@@ -10,7 +10,6 @@ using namespace std;
 class Imagen {
 private:
     string id;
-    string email;
     string nombre;
     int tam = 0;
     Fecha fecha = Fecha();
@@ -19,8 +18,7 @@ private:
 public:
     Imagen() = default;
 
-    Imagen(const string &id, const string &email, const string &nombre,
-           int tam, const Fecha &fecha, const Etiqueta &etiquetada);
+    Imagen(const string &id, const string &nombre,int tam, const Fecha &fecha, const Etiqueta &etiquetada);
 
     virtual ~Imagen() = default;
 

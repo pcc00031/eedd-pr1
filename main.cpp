@@ -3,6 +3,7 @@
 #include "Imagen.h"
 #include "VDinamico.h"
 #include "ImageBook.h"
+#include "AVL.h"
 #include <ctime>
 
 using namespace std;
@@ -16,61 +17,74 @@ int main() {
 
     cout << "******* PRACTICA 2 *******" << endl << endl;
 
-//    Instanciar la clase ImageBook
+    // Prueba de AVL
+
+    AVL<int> pruebaAVL = AVL<int>();
+    int millon = 1000000;
+    for (int i = 0; i < millon; ++i) {
+        int aleatorio = rand() % millon + 1;
+        pruebaAVL.inserta(aleatorio);
+    }
+    cout << "La altura del arbol de prueba es: " << pruebaAVL.altura() << endl;
+
+    //    Instanciar la clase ImageBook
 
     clock_t t_ini = clock();
     cout << "******* Instanciando ImageBook *******" << endl << endl;
-    ImageBook imageBook = ImageBook("imagenes_v1.csv", "etiquetas.txt");
-    imageBook.mostrarImagenes(numMostrar);
-    imageBook.mostrarEtiquetas(numMostrar);
+    ImageBook imageBook = ImageBook(
+            "imagenes_v1.csv",
+            "etiquetas.txt",
+            "usuarios.txt");
 
-    cout << "Tiempo primer apartado: " << (clock() - t_ini) << " ms." << endl << endl;
+    cout << endl << "******************************************************************************" << endl << endl;
 
-    cout << "******************************************************************************" << endl << endl;
-    //    Devolver cuál de las etiquetas es la más repetida usando el mismo procedimiento anterior.
-    //    Para ello iterar sobre todas las etiquetas para posteriormente buscarlas.
+    //    Buscar y mostrar la información de las imágenes de estos usuarios (si es que existen):
+    //    eliza39@yahoo.com, betty95@hotmail.com, betty95@hotmail.com, victor6@gmail.com y manolete@gmail.com.
 
-    cout << "******* Buscando etiqueta mas repetida *******" << endl << endl;
-    t_ini = clock();
+    cout << "******* Devolviendo los usuarios con el email solicitado *******" << endl << endl;
+    Usuario *usuario;
+    try {
+        usuario = imageBook.buscarUsuario("eliza39@yahoo.com");
+        cout << *usuario << endl;
+        usuario = imageBook.buscarUsuario("betty95@hotmail.com");
+        cout << *usuario << endl;
+        usuario = imageBook.buscarUsuario("betty95@hotmail.com");
+        cout << *usuario << endl;
+        usuario = imageBook.buscarUsuario("victor6@gmail.com");
+        cout << *usuario << endl;
+        usuario = imageBook.buscarUsuario("manolete@gmail.com");
+        cout << *usuario << endl;
+    } catch (invalid_argument &e) {
+        cerr << e.what() << endl;
+    }
+    cout << endl << "******************************************************************************" << endl << endl;
 
-    imageBook.etiquetaMasRepetida();
+    //    Devolver y mostrar por pantalla todos aquellos usuarios que hayan publicado alguna imagen
+    //    con la etiqueta “playa” y posteriormente los que hayan publicado con la etiqueta “comida”
 
-    cout << "Tiempo segundo apartado: " << (clock() - t_ini) << " ms." << endl << endl;
+    cout << "******* Devolviendo los usuarios con etiqueta playa *******" << endl << endl;
+    VDinamico<Usuario *> playa = imageBook.buscarUsuarioEtiq("playa");
+    for (int i = 0; i < playa.getTamLog(); ++i) {
+        cout << playa[i]->getEmail() << endl;
+    }
 
-    //    Devolver y mostrar por pantalla todas aquellas imágenes (id, usuario) con la etiqueta “playa”
-    //    y posteriormente las que tengan la etiqueta “comida”.
+    cout << endl << "******* Devolviendo los usuarios con etiqueta comida *******" << endl << endl;
+    VDinamico<Usuario *> comida = imageBook.buscarUsuarioEtiq("comida");
+    for (int i = 0; i < comida.getTamLog(); ++i) {
+        cout << comida[i]->getEmail() << endl;
+    }
 
-    t_ini = clock();
-    cout << "******* Mostrando imagenes con etiqueta playa *******" << endl << endl;
-    ListaDEnlazada<Imagen> imagenesEtiquetaPlaya = imageBook.buscarImagEtiq("playa");
+    cout << endl << "******************************************************************************" << endl << endl;
 
-    cout << "******* Mostrando imagenes con etiqueta comida *******" << endl << endl;
-    ListaDEnlazada<Imagen> imagenesEtiquetaComida = imageBook.buscarImagEtiq("comida");
+    //    Devolver el/los usuarios más activos en la red porque hayan publicado más imágenes.
 
-    cout << "Tiempo tercer apartado: " << (clock() - t_ini) << " ms." << endl << endl;
+    cout << "******* Devolviendo los usuarios mas activos *******" << endl << endl;
+    VDinamico<Usuario *> masActivos = imageBook.getMasActivos();
+    for (int i = 0; i < masActivos.getTamLog(); ++i) {
+        cout << *masActivos[i] << endl;
+    }
 
-    cout << "******************************************************************************" << endl << endl;
-
-    cout << "******************************************************************************" << endl << endl;
-
-    //    Unir ambas listas resultantes en una nueva lista resultado usando la función concatenar,
-    //    comprobando que el resultado es idéntico usando el operator+.
-
-    cout << "******* Uniendo ambas listas anteriores *******" << endl << endl;
-
-    ListaDEnlazada<Imagen> listaUnion = imagenesEtiquetaPlaya + imagenesEtiquetaComida;
-    ListaDEnlazada<Imagen> listaUnion2 = imagenesEtiquetaPlaya.concatena(imagenesEtiquetaComida);
-
-    if (listaUnion == listaUnion2) {
-        cout << "Ambas listas son iguales" << endl;
-    } else cout << "Las listas no son iguales" << endl;
-
-    // NOTA: hecho solo de forma secuencial, si dos listas tienen mismos elementos
-    //       pero en distinta posicion, no se consideran iguales
-
-    cout << "Tiempo cuarto apartado: " << (clock() - t_ini) << " ms." << endl << endl;
-
-    cout << "******************************************************************************" << endl << endl;
+    cout << endl << "******************************************************************************" << endl << endl;
 
     return 0;
 }
