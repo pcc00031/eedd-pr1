@@ -29,6 +29,8 @@ public:
 
     bool operator<(const ListaDEnlazada<T> &right) const;
 
+    bool operator==(const ListaDEnlazada<T> &right) const;
+
     ListaDEnlazada operator+(const ListaDEnlazada &listaDEnlazada) const;
 
     /* METODOS */
@@ -147,6 +149,23 @@ ListaDEnlazada<T> &ListaDEnlazada<T>::operator=(const ListaDEnlazada<T> &l) {
 template<class T>
 bool ListaDEnlazada<T>::operator<(const ListaDEnlazada<T> &right) const {
     return right > *this;
+}
+
+template<class T>
+bool ListaDEnlazada<T>::operator==(const ListaDEnlazada<T> &right) const {
+    if (tam != right.tam)
+        return false;
+
+    Iterador<T> i = (*this).iterador();
+    Iterador<T> it = right.iterador();
+
+    while (!i.fin()) {
+        if (i.dato() != it.dato())
+            return false;
+        i.siguiente();
+        it.siguiente();
+    }
+    return true;
 }
 
 template<class T>
@@ -361,7 +380,20 @@ T &ListaDEnlazada<T>::final() {
  */
 template<class T>
 ListaDEnlazada<T> ListaDEnlazada<T>::concatena(const ListaDEnlazada<T> &listaDEnlazada) const {
-    return (*this) + listaDEnlazada;
+    ListaDEnlazada<T> lista = ListaDEnlazada<T>();
+    Iterador<T> i = (*this).iterador();
+
+    while (!i.fin()) {
+        lista.insertarFinal(i.dato());
+        i.siguiente();
+    }
+
+    Iterador<T> it = listaDEnlazada.iterador();
+    while (!it.fin()) {
+        lista.insertarFinal(it.dato());
+        it.siguiente();
+    }
+    return lista;
 }
 
 /* GETTERS Y SETTERS */

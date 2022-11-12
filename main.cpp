@@ -58,8 +58,15 @@ int main() {
 
     cout << "******* Uniendo ambas listas anteriores *******" << endl << endl;
 
-    ListaDEnlazada<Imagen> listaUnion = imagenesEtiquetaPlaya.concatena(imagenesEtiquetaComida);
-    cout << "Total tam: " << listaUnion.getTam() << endl;
+    ListaDEnlazada<Imagen> listaUnion = imagenesEtiquetaPlaya + imagenesEtiquetaComida;
+    ListaDEnlazada<Imagen> listaUnion2 = imagenesEtiquetaPlaya.concatena(imagenesEtiquetaComida);
+
+    if (listaUnion == listaUnion2) {
+        cout << "Ambas listas son iguales" << endl;
+    } else cout << "Las listas no son iguales" << endl;
+
+    // NOTA: hecho solo de forma secuencial, si dos listas tienen mismos elementos
+    //       pero en distinta posicion, no se consideran iguales
 
     cout << "Tiempo cuarto apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
