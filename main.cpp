@@ -27,9 +27,18 @@ int main() {
     cout << "Tiempo primer apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
+    //    Devolver cuál de las etiquetas es la más repetida usando el mismo procedimiento anterior.
+    //    Para ello iterar sobre todas las etiquetas para posteriormente buscarlas.
 
-//    Devolver y mostrar por pantalla todas aquellas imágenes (id, usuario) con la etiqueta “playa”
-//    y posteriormente las que tengan la etiqueta “comida”.
+    cout << "******* Buscando etiqueta mas repetida *******" << endl << endl;
+    t_ini = clock();
+
+    imageBook.etiquetaMasRepetida();
+
+    cout << "Tiempo segundo apartado: " << (clock() - t_ini) << " ms." << endl << endl;
+
+    //    Devolver y mostrar por pantalla todas aquellas imágenes (id, usuario) con la etiqueta “playa”
+    //    y posteriormente las que tengan la etiqueta “comida”.
 
     t_ini = clock();
     cout << "******* Mostrando imagenes con etiqueta playa *******" << endl << endl;
@@ -38,29 +47,19 @@ int main() {
     cout << "******* Mostrando imagenes con etiqueta comida *******" << endl << endl;
     ListaDEnlazada<Imagen> imagenesEtiquetaComida = imageBook.buscarImagEtiq("comida");
 
-    cout << "Tiempo segundo apartado: " << (clock() - t_ini) << " ms." << endl << endl;
+    cout << "Tiempo tercer apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
     cout << "******************************************************************************" << endl << endl;
 
-//    Unir ambas listas resultantes en una nueva lista resultado usando la función concatenar,
-//    comprobando que el resultado es idéntico usando el operator+.
+    cout << "******************************************************************************" << endl << endl;
+
+    //    Unir ambas listas resultantes en una nueva lista resultado usando la función concatenar,
+    //    comprobando que el resultado es idéntico usando el operator+.
 
     cout << "******* Uniendo ambas listas anteriores *******" << endl << endl;
 
     ListaDEnlazada<Imagen> listaUnion = imagenesEtiquetaPlaya.concatena(imagenesEtiquetaComida);
     cout << "Total tam: " << listaUnion.getTam() << endl;
-
-    cout << "Tiempo tercer apartado: " << (clock() - t_ini) << " ms." << endl << endl;
-
-    cout << "******************************************************************************" << endl << endl;
-
-//    Devolver cuál de las etiquetas es la más repetida usando el mismo procedimiento anterior.
-//    Para ello iterar sobre todas las etiquetas para posteriormente buscarlas.
-
-    cout << "******* Buscando etiqueta mas repetida *******" << endl << endl;
-    t_ini = clock();
-
-    imageBook.etiquetaMasRepetida();
 
     cout << "Tiempo cuarto apartado: " << (clock() - t_ini) << " ms." << endl << endl;
 
