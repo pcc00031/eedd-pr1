@@ -4,6 +4,7 @@
 #include <iostream>
 #include "fecha.h"
 #include "Etiqueta.h"
+#include <deque>
 
 using namespace std;
 
@@ -13,12 +14,12 @@ private:
     string nombre;
     int tam = 0;
     Fecha fecha = Fecha();
-    Etiqueta etiquetada;
+    deque<Etiqueta> etiquetada;
 
 public:
     Imagen() = default;
 
-    Imagen(const string &id, const string &nombre,int tam, const Fecha &fecha, const Etiqueta &etiquetada);
+    Imagen(const string &id, const string &nombre,int tam, const Fecha &fecha, const deque<Etiqueta> &etiquetada);
 
     virtual ~Imagen() = default;
 
@@ -42,7 +43,7 @@ public:
 
     void setFecha(const Fecha &fecha);
 
-    const Etiqueta &getEtiquetada() const;
+    const deque<Etiqueta> &getEtiquetada() const;
 
     void setEtiquetada(const Etiqueta &etiquetada);
 
@@ -59,6 +60,9 @@ public:
     bool operator>=(const Imagen &rhs) const;
 
     friend ostream &operator<<(ostream &os, const Imagen &imagen);
+
+    void anadirEtiqueta(Etiqueta &etiqueta);
+
 };
 
 

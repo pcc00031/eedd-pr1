@@ -138,3 +138,7 @@ bool Imagen::operator==(const Imagen &rhs) const {
 bool Imagen::operator!=(const Imagen &rhs) const {
     return !(rhs == *this);
 }
+
+void Imagen::anadirEtiqueta(Etiqueta &etiqueta) {
+    etiquetada.push_back(etiqueta);
+}
