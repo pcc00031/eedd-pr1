@@ -66,3 +66,7 @@ ostream &operator<<(ostream &os, const Usuario &usuario) {
        << "- total imagenes: " << usuario.userImages.getTamLog() << endl;
     return os;
 }
+
+void Usuario::anadirEtiquetaImagen(const std::string &id, const std::string &nombreEti) {
+
+}

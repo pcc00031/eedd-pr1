@@ -4,6 +4,8 @@
 #define PR1_USUARIO_H
 
 #include <string>
+#include <vector>
+#include <map>
 #include "Imagen.h"
 #include "VDinamico.h"
 
@@ -12,7 +14,7 @@ using namespace std;
 class Usuario {
 private:
     string email;
-    VDinamico<Imagen> userImages;
+    map<string, Imagen *> userImages;
 public:
     Usuario();
 
@@ -35,6 +37,16 @@ public:
     int getNumImages();
 
     void insertarImagen(Imagen img);
+
+    void anadirEtiquetaImagen(const string &id, const string &nombreEti);
+
+    vector<Usuario *> buscarUsuariosEtiq(const string &nombreEti);
+
+    bool esMasActivo();
+
+    Imagen *getImagenMasAntigua();
+
+    Imagen *getImagenMasReciente();
 
     const string &getEmail() const;
 
