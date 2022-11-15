@@ -25,12 +25,12 @@ int main() {
         int aleatorio = rand() % millon + 1;
         pruebaAVL.inserta(aleatorio);
     }
-    cout << "La altura del arbol de prueba es: " << pruebaAVL.altura() << endl;
+    cout << "La altura del arbol de prueba es: " << pruebaAVL.altura() << endl << endl;
 
     //    Instanciar la clase ImageBook
 
     clock_t t_ini = clock();
-    cout << "******* Instanciando ImageBook *******" << endl << endl;
+    cout << "******* Instanciando ImageBook *******" << endl;
     ImageBook imageBook = ImageBook(
             "imagenes_v1.csv",
             "etiquetas.txt",
@@ -84,7 +84,7 @@ int main() {
         cout << *masActivos[i] << endl;
     }
 
-    cout << endl << "******************************************************************************" << endl << endl;
+    cout << "******************************************************************************" << endl << endl;
 
     return 0;
 }

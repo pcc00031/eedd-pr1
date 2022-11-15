@@ -169,7 +169,7 @@ ListaDEnlazada<Imagen> ImageBook::buscarImagEtiq(const string &etiqueta) {
 Usuario *ImageBook::buscarUsuario(string email) {
     Usuario usuario = Usuario(email);
     Usuario *result = new Usuario();
-    if (!users.buscaR(usuario, result))
+    if (!users.buscaRec(usuario, result))
         throw std::invalid_argument("Usuario con email " + email + " no encontrado");
     return result;
 }

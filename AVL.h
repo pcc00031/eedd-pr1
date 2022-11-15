@@ -1,11 +1,4 @@
 
-/* 
- * File:   AVL.h
- * Author: Pedro
- *
- * Created on 25 de octubre de 2021, 12:46
- */
-
 #ifndef AVL_H
 #define AVL_H
 
@@ -20,9 +13,9 @@ private:
     /* METODOS PRIVADOS*/
     int inserta(Nodo<T> *&c, T &dato);
 
-    void rotDecha(Nodo<T> *&p);
+    void rotDer(Nodo<T> *&p);
 
-    void rotIzqda(Nodo<T> *&p);
+    void rotIzq(Nodo<T> *&p);
 
     Nodo<T> *buscaClave(T &ele, Nodo<T> *p);
 
@@ -56,7 +49,7 @@ public:
 
     unsigned int altura();
 
-    bool buscaR(T &ele, T *&result);
+    bool buscaRec(T &ele, T *&result);
 
     bool buscaIt(T &dato, T &result);
 
@@ -117,7 +110,7 @@ void AVL<T>::copiarNodo(Nodo<T> *pun) {
  * @param &p  
  */
 template<typename T>
-void AVL<T>::rotIzqda(Nodo<T> *&p) {
+void AVL<T>::rotIzq(Nodo<T> *&p) {
     Nodo<T> *q = p, *r;
     p = r = q->der;
     q->der = r->izq;
@@ -135,7 +128,7 @@ void AVL<T>::rotIzqda(Nodo<T> *&p) {
  * @param &p  
  */
 template<typename T>
-void AVL<T>::rotDecha(Nodo<T> *&p) {
+void AVL<T>::rotDer(Nodo<T> *&p) {
     Nodo<T> *q = p, *l;
     p = l = q->izq;
     q->izq = l->der;
@@ -168,8 +161,8 @@ int AVL<T>::inserta(Nodo<T> *&c, T &dato) {
                 deltaH = 1;
             else if (p->bal == -2) {
                 if (p->der->bal == 1)
-                    rotDecha(p->der);
-                rotIzqda(c);
+                    rotDer(p->der);
+                rotIzq(c);
             }
         }
     } else if (dato < p->dato) {
@@ -179,8 +172,8 @@ int AVL<T>::inserta(Nodo<T> *&c, T &dato) {
                 deltaH = 1;
             else if (p->bal == 2) {
                 if (p->izq->bal == -1)
-                    rotIzqda(p->izq);
-                rotDecha(c);
+                    rotIzq(p->izq);
+                rotDer(c);
             }
         }
     }
@@ -195,7 +188,7 @@ int AVL<T>::inserta(Nodo<T> *&c, T &dato) {
 template<typename T>
 bool AVL<T>::inserta(T &ele) {
     T *pun;
-    bool encontrado = buscaR(ele, pun);
+    bool encontrado = buscaRec(ele, pun);
 
     if (!encontrado) {
         inserta(raiz, ele);
@@ -231,7 +224,7 @@ Nodo<T> *AVL<T>::buscaClave(T &ele, Nodo<T> *p) {
  * @post Devuelve true en caso de encontrarlo y false en caso contrario
  */
 template<typename T>
-bool AVL<T>::buscaR(T &ele, T *&result) {
+bool AVL<T>::buscaRec(T &ele, T *&result) {
     Nodo<T> *p = buscaClave(ele, raiz);
     if (p) {
         result = &p->dato;
