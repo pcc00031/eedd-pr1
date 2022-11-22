@@ -15,21 +15,10 @@ int static numMostrar = 10;
  */
 int main() {
 
-    cout << "******* PRACTICA 2 *******" << endl << endl;
-
-    // Prueba de AVL
-
-    AVL<int> pruebaAVL = AVL<int>();
-    int millon = 1000000;
-    for (int i = 0; i < millon; ++i) {
-        int aleatorio = rand() % millon + 1;
-        pruebaAVL.inserta(aleatorio);
-    }
-    cout << "La altura del arbol de prueba es: " << pruebaAVL.altura() << endl << endl;
+    cout << "******* PRACTICA 3 *******" << endl << endl;
 
     //    Instanciar la clase ImageBook
 
-    clock_t t_ini = clock();
     cout << "******* Instanciando ImageBook *******" << endl;
     ImageBook imageBook = ImageBook(
             "imagenes_v1.csv",
@@ -38,51 +27,62 @@ int main() {
 
     cout << endl << "******************************************************************************" << endl << endl;
 
-    //    Buscar y mostrar la información de las imágenes de estos usuarios (si es que existen):
-    //    eliza39@yahoo.com, betty95@hotmail.com, betty95@hotmail.com, victor6@gmail.com y manolete@gmail.com.
+    //    El usuario noelia30@hotmail.com quiere incluir la etiqueta “playa” en una de sus imágenes
+    //    cuyo id es 625722993.
 
-    cout << "******* Devolviendo los usuarios con el email solicitado *******" << endl << endl;
-    Usuario *usuario;
-    try {
-        usuario = imageBook.buscarUsuario("eliza39@yahoo.com");
-        cout << *usuario << endl;
-        usuario = imageBook.buscarUsuario("betty95@hotmail.com");
-        cout << *usuario << endl;
-        usuario = imageBook.buscarUsuario("betty95@hotmail.com");
-        cout << *usuario << endl;
-        usuario = imageBook.buscarUsuario("victor6@gmail.com");
-        cout << *usuario << endl;
-        usuario = imageBook.buscarUsuario("manolete@gmail.com");
-        cout << *usuario << endl;
-    } catch (invalid_argument &e) {
-        cerr << e.what() << endl;
-    }
-    cout << endl << "******************************************************************************" << endl << endl;
+    Usuario *usuario = imageBook.buscarUsuario("noelia30@hotmail.com");
 
-    //    Devolver y mostrar por pantalla todos aquellos usuarios que hayan publicado alguna imagen
-    //    con la etiqueta “playa” y posteriormente los que hayan publicado con la etiqueta “comida”
+    usuario->anadirEtiquetaImagen("625722993", "playa");
+    vector<Imagen> imagenes = usuario->buscarEtiq("playa");
 
-    cout << "******* Devolviendo los usuarios con etiqueta playa *******" << endl << endl;
-    VDinamico<Usuario *> playa = imageBook.buscarUsuarioEtiq("playa");
-    for (int i = 0; i < playa.getTamLog(); ++i) {
-        cout << playa[i]->getEmail() << endl;
+    for (int i = 0; i < imagenes.size(); ++i) {
+        if (imagenes[i].getId() == "625722993")
+            cout << imagenes[i] << endl;
     }
 
-    cout << endl << "******* Devolviendo los usuarios con etiqueta comida *******" << endl << endl;
-    VDinamico<Usuario *> comida = imageBook.buscarUsuarioEtiq("comida");
-    for (int i = 0; i < comida.getTamLog(); ++i) {
-        cout << comida[i]->getEmail() << endl;
-    }
+    cout  << endl<< "******************************************************************************" << endl << endl;
+
+    //    El usuario kenny_ohara73@yahoo.com quiere modificar la última imagen que ha subido.
+    //    Encontrar dicha imagen y añadirle la etiqueta “viernes”.
+
+    usuario = imageBook.buscarUsuario("kenny_ohara73@yahoo.com");
+
+    Imagen *imagen = usuario->getImagenMasReciente();
+    usuario->anadirEtiquetaImagen(imagen->getId(), "viernes");
+    imagenes = usuario->buscarEtiq("viernes");
+
+    cout << usuario->getImagenMasReciente() << endl;
 
     cout << endl << "******************************************************************************" << endl << endl;
 
-    //    Devolver el/los usuarios más activos en la red porque hayan publicado más imágenes.
+    //    El usuario elton.botsford@yahoo.com quiere conocer a todos los usuarios con los que
+    //    comparte la etiqueta “arroz”. Mostrar el número de usuarios obtenido y su email.
 
-    cout << "******* Devolviendo los usuarios mas activos *******" << endl << endl;
-    VDinamico<Usuario *> masActivos = imageBook.getMasActivos();
-    for (int i = 0; i < masActivos.getTamLog(); ++i) {
-        cout << *masActivos[i] << endl;
+    usuario = imageBook.buscarUsuario("elton.botsford@yahoo.com");
+
+    vector<Usuario *> usuarios = usuario->buscarUsuariosEtiq("arroz");
+
+    cout << "Total usuarios con los que elton.botsford comparte la etiqueta arroz: " << usuarios.size() << endl << endl;
+    for (int i = 0; i < usuarios.size(); ++i) {
+        cout << usuarios[i]->getEmail() << endl;
     }
+
+    cout << endl << "******************************************************************************" << endl << endl;
+
+    //    Buscar a los usuarios que publicaron una imagen el día 7/9/2021 y mostrar sus datos. De entre
+    //    todos los usuarios, mostrar quién ha publicado más imágenes.
+
+    usuarios = imageBook.buscarUsuarioFechaImagen(Fecha(7, 9, 2021));
+    cout << "Usuarios que publicaron el dia 7/9/2021" << endl;
+    for (int i = 0; i < usuarios.size(); ++i) {
+        cout << usuarios[i] << endl;
+    }
+
+    cout << endl << "******************************************************************************" << endl << endl;
+
+    //    Comprobar si el usuario chesley.gerlach@hotmail.com es el más activo de la red social.
+
+    cout << "El usuario mas activo es: " << endl << imageBook.getMasActivos() << endl;
 
     cout << "******************************************************************************" << endl << endl;
 

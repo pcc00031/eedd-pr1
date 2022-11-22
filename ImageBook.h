@@ -8,14 +8,15 @@
 #define PR1_IMAGEBOOK_H
 
 #include <iostream>
+#include <list>
 
 using namespace std;
 
 class ImageBook {
 private:
-    VDinamico<Imagen> images;
-    ListaDEnlazada<Etiqueta> labels;
-    AVL<Usuario> users;
+    vector<Imagen> images;
+    list<Etiqueta> labels;
+    map<string, Usuario> users;
 
 public:
     ImageBook() = default;
@@ -28,19 +29,20 @@ public:
 
     void cargarEtiquetas(const string &fichero);
 
-    void mostrarImagenes(int total);
+    list<Imagen> buscarImagEtiq(const string &etiqueta);
 
-    void mostrarEtiquetas(int total);
+    Imagen* buscarImag(const string &idImagen);
 
-    ListaDEnlazada<Imagen> buscarImagEtiq(const string &etiqueta);
+    Usuario* buscarUsuario(const string& email);
 
-    Usuario* buscarUsuario(string email);
+    vector<Usuario*> buscarUsuarioEtiq(const string& etiqueta);
 
-    VDinamico<Usuario*> buscarUsuarioEtiq(string etiqueta);
-//
-    VDinamico<Usuario*> getMasActivos();
+    Usuario* getMasActivos();
 
-    Etiqueta& etiquetaMasRepetida();
+    vector<Usuario*> buscarUsuarioFechaImagen(const Fecha &fecha);
+
+    Etiqueta* buscarEtiqueta(const string& nombre);
+
 };
 
 

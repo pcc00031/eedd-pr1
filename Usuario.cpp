@@ -13,12 +13,15 @@ Usuario::Usuario(const string &email) : email(email) {
     userImages = map<string, Imagen *>();
 }
 
-VDinamico<Imagen> Usuario::buscarEtiq(string etiqueta) {
-    VDinamico<Imagen> etiquetas = VDinamico<Imagen>();
-    for (int i = 0; i < userImages.size(); ++i) {
-        if (userImages..getEtiquetada().getNombre() == etiqueta) {
-            etiquetas.insertar(userImages[i]);
+vector<Imagen> Usuario::buscarEtiq(string etiqueta) {
+    vector<Imagen> etiquetas = vector<Imagen>();
+
+    auto i = userImages.begin();
+    while (i != userImages.end()) {
+        if (i->second->getEtiquetada().at(0).getNombre() == etiqueta) {
+            etiquetas.push_back(*i->second);
         }
+        ++i;
     }
     return etiquetas;
 }
@@ -86,4 +89,35 @@ vector<Usuario *> Usuario::buscarUsuariosEtiq(const std::string &nombreEti) {
     return usuarios;
 }
 
-bool Usuario::esMasActivo() {}
+vector<Imagen *> Usuario::getImagenFecha(const Fecha &fecha) {
+    vector<Imagen *> imagenes = vector<Imagen *>();
+    auto i = userImages.begin();
+    while (i != userImages.end()) {
+        if (i->second->getFecha().mismoDia(fecha))
+            imagenes.push_back(i->second);
+        ++i;
+    }
+    return imagenes;
+}
+
+Imagen *Usuario::getImagenMasAntigua() {
+    Imagen *imagen = new Imagen();
+    auto i = userImages.begin();
+    while (i != userImages.end()) {
+        if (&i->second->getFecha() < &imagen->getFecha())
+            imagen = i->second;
+    ++i;
+    }
+    return imagen;
+}
+
+Imagen *Usuario::getImagenMasReciente() {
+    Imagen *imagen = new Imagen();
+    auto i = userImages.begin();
+    while (i != userImages.end()) {
+        if (&imagen->getFecha() < &i->second->getFecha())
+            imagen = i->second;
+        ++i;
+    }
+    return imagen;
+}

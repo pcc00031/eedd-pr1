@@ -32,7 +32,7 @@ public:
 
     bool operator!=(const Usuario &rhs) const;
 
-    VDinamico<Imagen> buscarEtiq(string etiqueta);
+    vector<Imagen> buscarEtiq(string etiqueta);
 
     int getNumImages();
 
@@ -47,6 +47,8 @@ public:
     Imagen *getImagenMasAntigua();
 
     Imagen *getImagenMasReciente();
+
+    vector<Imagen*> getImagenFecha(const Fecha& fecha);
 
     const string &getEmail() const;
 

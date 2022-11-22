@@ -45,7 +45,7 @@ public:
 
     const deque<Etiqueta> &getEtiquetada() const;
 
-    void setEtiquetada(const Etiqueta &etiquetada);
+    void setEtiquetada(const deque<Etiqueta> &etiquetada);
 
     bool operator==(const Imagen &rhs) const;
 

@@ -10,7 +10,7 @@
  * @param fecha
  * @param etiquetadas
  */
-Imagen::Imagen(const string &id, const string &nombre, int tam, const Fecha &fecha, const Etiqueta &etiquetada) :
+Imagen::Imagen(const string &id, const string &nombre, int tam, const Fecha &fecha, const deque<Etiqueta> &etiquetada) :
         id(id), nombre(nombre), tam(tam), fecha(fecha), etiquetada(etiquetada) {}
 
 /**
@@ -77,22 +77,6 @@ void Imagen::setFecha(const Fecha &fecha) {
     Imagen::fecha = fecha;
 }
 
-/**
- * Obtiene etiquetas de imagen
- * @return
- */
-const Etiqueta &Imagen::getEtiquetada() const {
-    return etiquetada;
-}
-
-/**
- * Establece etiquetas
- * @param etiquetas
- */
-void Imagen::setEtiquetada(const Etiqueta &etiquetada) {
-    Imagen::etiquetada = etiquetada;
-}
-
 /** OPERADORES EN BASE A TAM **/
 
 bool Imagen::operator<(const Imagen &rhs) const {
@@ -123,7 +107,7 @@ ostream &operator<<(ostream &os, const Imagen &imagen) {
        << "- nombre: " << imagen.nombre << endl
        << "- tamLog: " << imagen.tam << endl
        << "- fecha: " << imagen.fecha << endl
-       << imagen.etiquetada << endl;
+       << imagen.etiquetada.at(0) << endl;
     return os;
 }
 
@@ -141,4 +125,12 @@ bool Imagen::operator!=(const Imagen &rhs) const {
 
 void Imagen::anadirEtiqueta(Etiqueta &etiqueta) {
     etiquetada.push_back(etiqueta);
+}
+
+const deque<Etiqueta> &Imagen::getEtiquetada() const {
+    return etiquetada;
+}
+
+void Imagen::setEtiquetada(const deque<Etiqueta> &etiquetada) {
+    Imagen::etiquetada = etiquetada;
 }
